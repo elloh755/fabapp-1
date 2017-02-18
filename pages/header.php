@@ -225,7 +225,7 @@ if ($staff) if($staff->getRoleID() > 6) { ?>
                             <a href="#"><i class="fa fa-wrench fa-fw"></i> Service Request<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#"><i class="fa fa-fire fa-fw"></i> Report Issue</a>
+                                    <a href="/service/newTicket.php"><i class="fa fa-fire fa-fw"></i> Report Issue</a>
                                 </li>
                                 <li>
                                     <a href="#"><i class="fa fa-history fa-fw"></i> History</a>

@@ -6525,6 +6525,11 @@ button.close {
 .hide {
   display: none !important;
 }
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
 .show {
   display: block !important;
 }
