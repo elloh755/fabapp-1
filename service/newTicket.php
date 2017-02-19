@@ -65,11 +65,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 			            <td><div class="form-group">
 							<textarea class="form-control" rows="5" id="notes"></textarea>
 						</div></td>
-	            		<tr><td>Staff ID</td>
-		    	        <td><div class="form-group">
-							<textarea class="form-control" rows="1" id="StaffID"></textarea>
-						</div></td>
-	            		<tr><td>Current Date</td><td>Temperature</td>
+	            		<tr><td>Staff ID</td><td><?php echo $staff->getOperator();?></td>
+	            		<tr><td>Current Date</td><td><?php echo $date = date("m/d/Y h:i a", time());?></td>
 	            		<tr><td><input class="btn btn-primary pull-right" type="reset" value="Reset"></td><td><input class="btn btn-primary" type="submit" value="Submit"></td>
 	            		<tr>
           			</table>
