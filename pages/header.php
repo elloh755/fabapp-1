@@ -228,7 +228,7 @@ if ($staff) if($staff->getRoleID() > 6) { ?>
                                     <a href="/service/newTicket.php"><i class="fa fa-fire fa-fw"></i> Report Issue</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-history fa-fw"></i> History</a>
+                                    <a href="/service/ticketHistory.php"><i class="fa fa-history fa-fw"></i> History</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
