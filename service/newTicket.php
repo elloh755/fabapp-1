@@ -13,7 +13,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Page Name</h1>
+            <h1 class="page-header">Report Issue</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -68,7 +68,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	            		<tr><td>Staff ID</td><td><?php echo $staff->getOperator();?></td>
 	            		<tr><td>Current Date</td><td><?php echo $date = date("m/d/Y h:i a", time());?></td>
 	            		<tr><td><input class="btn btn-primary pull-right" type="reset" value="Reset"></td><td><input class="btn btn-primary" type="submit" value="Submit"></td>
-	            		<tr>
           			</table>
                 </div>
             </div>

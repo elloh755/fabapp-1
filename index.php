@@ -7,7 +7,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 $device_array = array();
 $_SESSION['type'] = "home";
 ?>
-<title><?php echo $sv['site_name'];?> Dashboard</title>
+<title><?php echo $sv['New Ticket'];?> Dashboard</title>
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
