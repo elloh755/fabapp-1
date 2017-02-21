@@ -44,15 +44,15 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                    		</td>
 		    	        <tr><td>Machine ID</td>
 		    	        <td><div class="form-group">
-							<textarea class="form-control" rows="1" id="machineID"></textarea>
+							<textarea class="form-control" rows="1" id="machineID" style="resize:none"></textarea>
 						</div></td>
-        	    		<tr><td>Service Level</td><td>
-        	    			<label class="radio-inline"><input type="radio" name="optradio">Issue</label>
+        	    		<tr><td>Service Level</td>
+        	    		<td><label class="radio-inline"><input type="radio" name="optradio">Issue</label>
 							<label class="radio-inline"><input type="radio" name="optradio">Maintenance</label>
 							<label class="radio-inline"><input type="radio" name="optradio">Non-Operable</label></td>
 			            <tr><td>Notes:</td>
 			            <td><div class="form-group">
-							<textarea class="form-control" rows="5" id="notes"></textarea>
+							<textarea class="form-control" rows="5" id="notes" style="resize:none"></textarea>
 						</div></td>
 	            		<tr><td>Staff ID</td><td><?php echo $staff->getOperator();?></td>
 	            		<tr><td>Current Date</td><td><?php echo $date = date("m/d/Y h:i a", time());?></td>
