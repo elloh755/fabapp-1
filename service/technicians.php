@@ -24,61 +24,46 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 <div class="panel-heading">
                     <i class="fa fa-calculator fa-fw"></i> Tickets
                 </div>
-                <div class="panel-body" style="max-height: 10;overflow-y: scroll;">
+                <div class="panel-body" style="max-height: 200px; overflow-y: scroll;">
                     <?php 
                     if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, solved, notes
+                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, solved, sc_notes
                     FROM service_call
                     WHERE solved = 'N'
-                    ORDER BY sc_time DESC
-            ")){
-                                while ( $row = $result->fetch_assoc() ){ ?>
-                                        <tr class="tablerow">
-                                                <?php if($row["t_start"]) { ?>
-                                                        <td align="right"><?php echo $row["sc_id"]; ?></td>
-                                                        <?php if($row['url'] && (preg_match($sv['ip_range_1'],getenv('REMOTE_ADDR')) || preg_match($sv['ip_range_2'],getenv('REMOTE_ADDR'))) ){ ?>
-                                                                <td><?php echo ("<a href=\"http://".$row["url"]."\">".$row["device_desc"]."</a>"); ?></td>
-                                                        <?php }else{ ?>
-                                                                <td><?php echo $row["device_desc"]; ?></td><?php }
-                                                        echo("<td>".date( 'M d g:i a',strtotime($row["t_start"]) )."</td>" );
-                                                        if( isset($row["est_time"]) ){
-                                                                echo("<td align=\"center\"><div id=\"est".$row["trans_id"]."\">".$row["est_time"]." </div></td>" ); 
-                                                        } else 
-                                                                echo("<td align=\"center\">-</td>"); 
-                                                        if ($staff) {?>
-                                                        <td align="center">
-                                                                <button onclick="endTicket(<?php echo $row["trans_id"].",'".$row["device_desc"]."'"; ?>)">End Ticket</button>
-                                                        </td>
-                                                        <?php } if ( isset($row["est_time"])) {
-                                                                $str_time = preg_replace("/^([\d]{1,2})\:([\d]{2})$/", "00:$1:$2", $row["est_time"]);
-                                                                sscanf($str_time, "%d:%d:%d", $hours, $minutes, $seconds);
-                                                                $time_seconds = $hours * 3600 + $minutes * 60 + $seconds;
-                    
-                                                                $time_seconds = $time_seconds - (time() - strtotime($row["t_start"]) ) + $sv["grace_period"];
-                                                                array_push($device_array, array($row["trans_id"], $time_seconds, $row["dg_parent"]));
-                                                        } 
-                                                } else { ?>
-                                                        <td align="right"></td>
-                                                        <?php if($row['url'] && (preg_match($sv['ip_range_1'],getenv('REMOTE_ADDR')) || preg_match($sv['ip_range_2'],getenv('REMOTE_ADDR'))) ){ ?>
-                                                                <td><?php echo ("<a href=\"http://".$row["url"]."\">".$row["device_desc"]."</a>"); ?></td>
-                                                        <?php }else{ ?>
-                                                                <td><?php echo $row["device_desc"]; ?></td><?php }?>
-                                                        <td align="center"> - </td>
-                                                        <td align="center"> - </td>
-                                                        <?php if($row["url"] && $staff){ ?>
-                                                                <td  align="center"><?php echo ("<a href=\"http://".$row["url"]."\">New Ticket</a>"); ?></td>
-                                                        <?php }elseif($staff) { ?>
-                                                                <td align="center"><div id="est"><a href="\pages\create.php?<?php echo("d_id=".$row["d_id"])?>">New Ticket</a></div></td>
-                                                        <?php }?>
-                    
-                                                <?php } ?>
-                                        </tr>
-                                                <?php
-                                        }
-                    
-                                } 
-                        ?>
-                </div>
+                    ORDER BY sc_time DESC")){
+                    	while ($row = $result->fetch_assoc()){
+                    		echo "<table width='100%' border='1'><tr>";
+                    		if (mysqli_num_rows($result)>0)
+                    		{
+                    			//loop thru the field names to print the correct headers
+                    			$i = 0;
+                    			while ($i < mysqli_num_fields($result))
+                    			{
+                    				echo "<th style='text-align:center'>". mysqli_fetch_field_direct($result, $i)->name ."</th>";
+                    				$i++;
+                    			}
+                    			echo "</tr>";
+                    		
+                    			//display the data
+                    			while ($cols = mysqli_fetch_array($result,MYSQL_NUM))
+                    			{
+                    				echo "<tr>";
+                    				foreach ($cols as $data)
+                    				{
+                    					echo "<td align='left'>". $data . "</td>";
+                    				}
+                    				echo "</tr>";
+                    			}
+                    		}else{
+                    			echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
+                    		}
+                    		echo "</table>";
+                    	}
+                    }
+                    else{
+                    	echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
+                    } ?>
+                   </div>
                 <!-- /.panel-body -->
             </div>
             <!-- /.panel -->
