@@ -22,16 +22,16 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-calculator fa-fw"></i> Tickets
+                    <i class="fa fa-calculator fa-fw"></i> Replies
                 </div>
-                <div class="panel-body" style="max-height: 500px; overflow-y: scroll;">
+                <div class="panel-body" style="max-height: 200px; overflow-y: scroll;">
                     <?php 
                     if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, solved, sc_notes
-                    FROM service_call
-                    WHERE solved = 'N'
-                    ORDER BY sc_time DESC")){
-                    	echo "<table width='100%' border='1' class='Tabella'><tr>";
+                    SELECT reply.sc_id, reply.sr_id, reply.staff_id, reply.sr_notes, reply.sr_time FROM reply LEFT JOIN service_call
+					ON (reply.sc_id=service_call.sc_id)
+					WHERE service_call.sc_id = 1
+					ORDER BY reply.sr_time DESC")){
+                    	echo "<table width='100%' border='1'><tr>";
                     	if (mysqli_num_rows($result)>0)
                     	{
                     		//loop thru the field names to print the correct headers
@@ -46,11 +46,13 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     		//display the data
                     		while ($cols = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     		{
-                    			echo "<tr onmouseover='ChangeColor(this, true);' onmouseout='ChangeColor(this, false);' onclick=\"document.location.href = '/service/individualHistory.php?id=".$cols['sc_id']."'\">";
+                    			echo "<tr>";
+                    			$i = 0;
                     			foreach ($cols as $data)
                     			{
                     				echo "<td align='left'>" . $data . "</td>";
                     			}
+                    			$i++;
                     			echo "</tr>";
                     		}
                     	}else{
@@ -60,13 +62,15 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     }
                     else{
                     	echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
-                    } ?>
+                	} ?>
                    </div>
                 <!-- /.panel-body -->
+                <!-- button for new reply -->
             </div>
             <!-- /.panel -->
         </div>
     </div>
+    <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
 <?php
