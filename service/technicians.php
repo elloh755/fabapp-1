@@ -22,12 +22,12 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-calculator fa-fw"></i> Tickets
+                    <i class="fa fa-calendar fa-fw"></i> History
                 </div>
                 <div class="panel-body" style="max-height: 500px; overflow-y: scroll;">
                     <?php 
                     if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, solved, sc_notes
+                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes
                     FROM service_call
                     WHERE solved = 'N'
                     ORDER BY sc_time DESC")){
@@ -35,31 +35,86 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     	if (mysqli_num_rows($result)>0)
                     	{
                     		//loop thru the field names to print the correct headers
-                    		$i = 0;
-                    		while ($i < mysqli_num_fields($result))
-                    		{
-                    			echo "<th style='text-align:center' width=\"" . 100/mysqli_num_fields($result) . "%\">" . mysqli_fetch_field_direct($result, $i)->name ."</th>";
-                    			$i++;
-                    		}
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Call ID</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Staff Level</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Device Name</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Level</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Ticket Open Date</th>";
+                    		echo "<th style='text-align:center' width=\"" . 4*(100/(mysqli_num_fields($result)+3)) . "%\">Service Notes</th>";
                     		echo "</tr>";
                     			
                     		//display the data
                     		while ($cols = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     		{
-                    			echo "<tr onmouseover='ChangeColor(this, true);' onmouseout='ChangeColor(this, false);' onclick=\"document.location.href = '/service/individualHistory.php?id=".$cols['sc_id']."'\">";
+                    			echo "<tr onclick=\"document.location.href = '/service/individualHistory.php?id=".$cols['sc_id']."&machineID=".$cols['d_id']."'\">";
+                    			
+                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
+                    				switch($i){
+                    					case 0:		//first column
+                    						echo "<td align='left'>" . $cols['sc_id'] . "</td>";
+                    					break;
+                    					case 1:		//second column
+                    						if($staffName = $mysqli->query("
+                    							SELECT title
+												FROM role
+												AS title
+												WHERE r_id = (
+												    SELECT r_id
+												    FROM users
+												    AS r_id
+												    WHERE operator = " . $cols['staff_id'] . "
+												);")){
+                    							if($staffName->num_rows > 0){
+                    								$staffName = mysqli_fetch_array($staffName, MYSQLI_ASSOC);
+                    								echo "<td align='left'>" . $staffName['title'] . "</td>";
+                    							}
+                    							else
+                    								echo "<td align='left'>Invalid User ID</td>";
+                    						}
+                    						else
+                    							echo "<td align='left'>Invalid User ID</td>";
+                    					break;
+                    					case 2:		//third column
+                    						if($deviceName = $mysqli->query("SELECT device_desc FROM devices WHERE d_id = " . $cols['d_id'])){
+                    							echo "<td align='left'>" . $deviceName->fetch_object()->device_desc . "</td>";
+                    						}
+                    						else
+                    							echo "<td align='left'>Invalid Machine ID</td>";
+                    					break;
+                    					case 3:		//fourth column
+                    						if($serviceLevel = $mysqli->query("SELECT msg FROM service_lvl WHERE sl_id = " . $cols['sl_id'])){
+                    							if($serviceLevel->num_rows > 0){
+	                    							$serviceLevel = mysqli_fetch_array($serviceLevel, MYSQLI_ASSOC);
+    	                							echo "<td align='left'>" . $serviceLevel['msg'] . "</td>";
+                    							}
+                    							else
+                    								echo "<td align='left'>Invalid Service Level</td>";
+                    						}
+                    						else
+                    							echo "<td align='left'>Invalid Service Level</td>";
+                    					break;
+                    					case 4:		//fifth column
+                    						echo "<td align='left'>" . $cols['sc_time'] . "</td>";
+                    					break;
+                    					case 5:		//sixth column
+                    						echo "<td align='left'>" . $cols['sc_notes'] . "</td>";
+                    					break;
+                    				}
+                    			}
+                    			/*
                     			foreach ($cols as $data)
                     			{
                     				echo "<td align='left'>" . $data . "</td>";
-                    			}
+                    			}*/
                     			echo "</tr>";
                     		}
                     	}else{
-                    		echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
+                    		echo "<tr><td>No Results found!</td></tr>";
                     	}
-                    	echo "</table>";
+                     	echo "</table>";
                     }
                     else{
-                    	echo "<tr><td colspan='" . ($i+1) . "'>No Results found!</td></tr>";
+                    	echo "<tr><td>No Results found!</td></tr>";
                     } ?>
                    </div>
                 <!-- /.panel-body -->
