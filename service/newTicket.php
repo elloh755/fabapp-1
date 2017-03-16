@@ -4,10 +4,11 @@
  * FabApp V 0.9
  */
 include_once ($_SERVER ['DOCUMENT_ROOT'] . '/pages/header.php');
+
 ?>
 
 
-
+<script src="jquery.js"> </script>
 
 <title><?php echo $sv['site_name'];?> Admin Base</title>
 <?php
@@ -19,7 +20,7 @@ if ($staff->getRoleID () < 7) {
 ?>
 
 
-
+<body>
 
 
 <div id="page-wrapper">
@@ -32,18 +33,21 @@ if ($staff->getRoleID () < 7) {
 	<!-- /.row -->
 	<div class="row">
 		<div class="col-lg-12">
+		 <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;"><p id="errormessage"></p></div>
 			<div class="panel panel-default">
+				
 				<div class="panel-heading">
 					<i class="fa fa-ticket fa-fw"></i> New Ticket
 				</div>
 				
 			
 
-				<form method= "POST"  action="/service/insertSC.php">
+				<form name="scform" method= "POST"  action="/service/insertSC.php" onsubmit="return validateForm();">
 				<table class="table table-striped">
 						<tr>
 							<td>Device Group</td>
-							<td><select class="form-control" name="devGrp">
+							<td><select class="form-control" name="devGrp" id="devGrp" onChange="change_group()" >
+								<option value="" > Select Group</option>
                     			<?php
 																							/* check connection */
 																							if ($mysqli->connect_errno) {
@@ -54,6 +58,7 @@ if ($staff->getRoleID () < 7) {
 
 																								die("There was an error loading device_group ");
 																							}
+																							
 																							while ( $rows = mysqli_fetch_array ( $result ) ) {
 																								echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
 																							}
@@ -61,19 +66,44 @@ if ($staff->getRoleID () < 7) {
                 				</select></td>
 						
 						</tr>
+
+						<tr>
+							<td>Device</td>
+							<td><select class="form-control" name="deviceList" id="deviceList">
+								<option value =""> Select Group First</option>
+                    			
+                				</select></td>
+						
+						</tr>
+						
+						
 						
 						<tr>
 							<td>Service Level</td>
-							<td><label class="radio-inline"><input type="radio"
-									name="optradio" value ="1">Issue</label> <label class="radio-inline"><input
-									type="radio" name="optradio" value="2">Maintenance</label> <label
-								class="radio-inline"><input type="radio" name="optradio" value="3">Non-Operable</label></td>
+							
+							<td>
+														                    			<?php
+																							
+																							if (! $result = $mysqli->query ( "SELECT * FROM service_lvl" )) {
+
+																								die("There was an error loading device_group ");
+																							}
+																							
+																							while ( $rows = mysqli_fetch_array ( $result ) ) {
+																								echo '<label class="radio-inline">';
+																								echo '<input type="radio" name="optradio" value="'.$rows["sl_id"].'">'.$rows["msg"].'        ';
+																							}
+																							?>
+							
+							</td>
+							
+							
 						
 						</tr>
 						<tr>
 							<td>Notes:</td>
 							<td><div class="form-group">
-									<textarea class="form-control" rows="5" name="notes"
+									<textarea class="form-control" id="notes" rows="5" name="notes"
 										style="resize: none"></textarea>
 								</div></td>
 						
@@ -111,7 +141,64 @@ if ($staff->getRoleID () < 7) {
 
 <!-- /#page-wrapper -->
 
+</body>
 
+<script type="text/javascript">
+
+
+	function validateRadio(radios){
+		for(i = 0; i< radios.length ; ++i){
+			if(radios[i].checked){
+				return true;
+			}
+		}
+		return false;
+
+
+	}
+
+
+	function validateForm(){
+		var dg = document.getElementById("devGrp").value;
+		var dev= document.getElementById("deviceList").value;
+		var radiocheck= false;
+		if(validateRadio(document.forms["scform"]["optradio"])){
+			radiocheck = true;
+		}
+
+
+		
+		var notes = document.getElementById("notes").value;
+
+		if(dg == "" || dev == "" ||  notes =="" || radiocheck == false){
+			document.getElementById('errordiv').style.display = 'block';
+
+			document.getElementById("errormessage").innerHTML = "All fields are required";
+			
+			return false;
+		}
+
+
+		
+	}
+
+
+</script>
+
+
+
+
+<!-- The following script gets the response for device dropdown using dg_id from the group selection -->
+<script type = "text/javascript">
+function change_group(){
+	var xmlhttp = new XMLHttpRequest();
+	xmlhttp.open("GET", "/service/getdevicelist.php?dg_id="+ document.getElementById("devGrp").value, false);
+	xmlhttp.send(null);
+	document.getElementById("deviceList").innerHTML = xmlhttp.responseText;
+	
+}
+
+</script>
 
 <?php
 // Standard call for dependencies
