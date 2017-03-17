@@ -21,8 +21,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
-	$devID = 1;
-	//$devID = $_POST['dev'];
+	$devID = $_POST['dev'];
 
 	switch($_POST['optradio']){
 		case 100:				//case for completed ticket
@@ -48,7 +47,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	}
 	else
 		$fieldReport = "Error in submitting";
-	header("refresh:5; url=/service/newTicket.php");
+	header("refresh:5; url=/service/individualHistory.php?service_call_id=$sc_id");
 
 ?>
 

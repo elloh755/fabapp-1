@@ -91,7 +91,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 	} ?>
                    </div>
                 <!-- /.panel-body -->
-                <!-- button for new reply -->
             </div>
             <!-- /.panel -->
         </div>
@@ -106,27 +105,37 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 <div class="panel-body">
                    	<form method= "POST"  action="/service/insertReply.php">
 				<table class="table table-striped">
-				<?php $_POST["service_call_number"] = $_GET['service_call_id'];?>
+				<tr><td>Service Call Number:</td>
+					<td><?php echo "<input type='text' name='service_call_number' value=" . $_GET['service_call_id'] . " readonly>"?></td></tr>
 				<tr><td>Device Description:</td>
 					<td>
                     <?php	/* check connection */
-                    	//echo "<select class='form-control' name='devGrp'>";
-                    	$select = "SELECT device_desc FROM devices AS d_id WHERE d_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id = ". $_GET['service_call_id'] . ")";
-						if ($result = $mysqli->query ($select)){
-							/*while ($rows = mysqli_fetch_array ($select,MYSQLI_ASSOC)) {
-								echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
+						/*
+						*	dynamic dropdown
+						*	default (first) = current selection
+						*	list contains all devices in current group
+						*/
+                    	echo "<select class='form-control' name='dev'>";
+                    	$default_value = "SELECT device_desc,d_id,dg_id FROM devices AS d_id WHERE d_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id = ". $_GET['service_call_id'] . ")";
+						if ($default = $mysqli->query($default_value)){
+							$default = mysqli_fetch_array($default);
+							$list_elements = "SELECT d_id,device_desc FROM devices WHERE dg_id = " . $default['dg_id'] . " ORDER BY device_desc ASC";
+							echo "<option selected value=" . $default['d_id'] . ">" . $default['device_desc'] . "</option>";
+							if($list = $mysqli->query($list_elements)){
+								while ($rows = mysqli_fetch_array($list,MYSQLI_ASSOC)) {
+									if($rows['d_id'] == $default['d_id'])
+										continue;
+									else
+										echo "<option value=" . $rows['d_id'] . ">" . $rows['device_desc'] . "</option>";
+								}
 							}
-							echo "</select>";*/
-							echo $result->fetch_object()->device_desc;
+							else
+								echo "<option value=0>Error Loading Device Group</option>";
+							echo "</select>";
+							
 						}
 						else
-							echo "There was an error loading device description";
-						/*
-						dynamic dropdown
-						default (first) = current selection
-						list contains all devices in current group
-						*/
-						
+							echo "There was an error loading device description";						
 						?> 
 						</td></tr>
 					<tr>
