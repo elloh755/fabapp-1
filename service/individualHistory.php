@@ -110,8 +110,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 				<tr><td>Device Description:</td>
 					<td>
                     <?php	/* check connection */
-                    	echo "<select class='form-control' name='devGrp'>";
-                    	$select = "SELECT dg_id,dg_name FROM device_group ORDER BY dg_name ASC WHERE dg_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id =  ". $_GET['service_call_id'] . ")";
+                    	//echo "<select class='form-control' name='devGrp'>";
+                    	$select = "SELECT device_desc FROM devices AS d_id WHERE d_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id = ". $_GET['service_call_id'] . ")";
 						if ($result = $mysqli->query ($select)){
 							/*while ($rows = mysqli_fetch_array ($select,MYSQLI_ASSOC)) {
 								echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
