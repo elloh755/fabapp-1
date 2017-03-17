@@ -24,7 +24,9 @@ if ($mysqli->connect_errno) {
 
 
 $staffID = $staff->getOperator();
-$devID = $_POST['devGrp'];
+$devID = $_POST['deviceList'];
+
+
 
 $slID = $_POST['optradio'];
 $solvedSt = "N";

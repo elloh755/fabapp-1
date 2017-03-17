@@ -18,9 +18,7 @@ if($dg_id !=""){
 	echo "<select>";
 	while($row = mysqli_fetch_array($result))
 	{
-		echo "<option>"; echo $row["device_desc"]; echo "</option>";
-	
-	
+		echo '<option value="'.$row["d_id"].'">'; echo $row["device_desc"]; echo "</option>";
 	}
 	echo "</select>";
 	

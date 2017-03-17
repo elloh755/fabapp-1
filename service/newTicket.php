@@ -92,6 +92,7 @@ if ($staff->getRoleID () < 7) {
 																							while ( $rows = mysqli_fetch_array ( $result ) ) {
 																								echo '<label class="radio-inline">';
 																								echo '<input type="radio" name="optradio" value="'.$rows["sl_id"].'">'.$rows["msg"].'        ';
+																								echo '</label>';
 																							}
 																							?>
 							
@@ -181,12 +182,7 @@ if ($staff->getRoleID () < 7) {
 
 		
 	}
-
-
 </script>
-
-
-
 
 <!-- The following script gets the response for device dropdown using dg_id from the group selection -->
 <script type = "text/javascript">
@@ -199,7 +195,6 @@ function change_group(){
 }
 
 </script>
-
 <?php
 // Standard call for dependencies
 include_once ($_SERVER ['DOCUMENT_ROOT'] . '/pages/footer.php');
