@@ -27,15 +27,14 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 <div class="panel-body" style="max-height: 150px; overflow-y: scroll;">
                     <?php 
                     if ($result = $mysqli->query("
-                    SELECT reply.sc_id, reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes FROM reply LEFT JOIN service_call
+                    SELECT reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes, service_call.d_id FROM reply LEFT JOIN service_call
 					ON (reply.sc_id=service_call.sc_id)
-					WHERE service_call.sc_id = " . $_GET["id"] . "
+					WHERE service_call.sc_id = " . $_GET['service_call_id'] . "
 					ORDER BY reply.sr_time DESC")){
                     	echo "<table width='100%' border='1'><tr>";
                     	if (mysqli_num_rows($result)>0)
                     	{
                     		//loop thru the field names to print the correct headers
-                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Call ID</th>";
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Reply ID</th>";
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Staff Level</th>";
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Reply Date</th>";
@@ -44,17 +43,14 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     			
                     		//display the data
                     		
-                    		while ($cols = mysqli_fetch_array($result, MYSQLI_ASSOC))
+                    		while ($cols = mysqli_fetch_array($result,MYSQLI_ASSOC))
                     		{
                     			for($i = 0; $i < mysqli_num_fields($result); $i++){
                     				switch($i){
                     					case 0:		//first column
-                    						echo "<td align='left'>" . $cols['sc_id'] . "</td>";
+                    						echo "<td align='center' style='padding: 2px;'>" . $cols['sr_id'] . "</td>";
                     					break;
-                    					case 1:
-                    						echo "<td align='left'>" . $cols['sr_id'] . "</td>";
-                    					break;
-                    					case 2:		//third column
+                    					case 1:		//second column
                     						if($staffName = $mysqli->query("
                     							SELECT title
 												FROM role
@@ -67,19 +63,19 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 												);")){
                     							if($staffName->num_rows > 0){
                     								$staffName = mysqli_fetch_array($staffName, MYSQLI_ASSOC);
-                    								echo "<td align='left'>" . $staffName['title'] . "</td>";
+                    								echo "<td align='center' style='padding: 2px;'>" . $staffName['title'] . "</td>";
                     							}
                     							else
-                    								echo "<td align='left'>Invalid User ID</td>";
+                    								echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
                     						}
                     						else
-                    							echo "<td align='left'>Invalid User ID</td>";
+                    							echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
                     					break;
-                    					case 3:		//fourth column
-                    						echo "<td align='left'>" . $cols['sr_time'] . "</td>";
+                    					case 2:		//third column
+                    						echo "<td align='center' style='padding: 2px;'>" . $cols['sr_time'] . "</td>";
                    						break;
-                    					case 4:		//fifth column
-                    						echo "<td align='left'>" . $cols['sr_notes'] . "</td>";
+                    					case 3:		//fourth column
+                    						echo "<td align='left' style='padding: 10px;'>" . $cols['sr_notes'] . "</td>";
                    						break;
                     				}
                     			}
@@ -108,31 +104,48 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     <i class="fa fa-ticket fa-fw"></i> Update Ticket
                 </div>
                 <div class="panel-body">
-                   	<form method= "POST"  action="/service/insertSC.php">
+                   	<form method= "POST"  action="/service/insertReply.php">
 				<table class="table table-striped">
+				<?php $_POST["service_call_number"] = $_GET['service_call_id'];?>
 				<tr><td>Device Description:</td>
 					<td>
                     <?php	/* check connection */
-						if ($mysqli->connect_errno) {
-							echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-							exit ();
+                    	echo "<select class='form-control' name='devGrp'>";
+                    	$select = "SELECT dg_id,dg_name FROM device_group ORDER BY dg_name ASC WHERE dg_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id =  ". $_GET['service_call_id'] . ")";
+						if ($result = $mysqli->query ($select)){
+							/*while ($rows = mysqli_fetch_array ($select,MYSQLI_ASSOC)) {
+								echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
+							}
+							echo "</select>";*/
+							echo $result->fetch_object()->device_desc;
 						}
-						if (! $result = $mysqli->query ( "SELECT device_desc FROM devices WHERE d_id = " . $_GET["machineID"])) {
-							die("There was an error loading device description ");
-						}
-						echo $result->fetch_object()->device_desc?> 
+						else
+							echo "There was an error loading device description";
+						/*
+						dynamic dropdown
+						default (first) = current selection
+						list contains all devices in current group
+						*/
+						
+						?> 
 						</td></tr>
 					<tr>
 						<td>Service Level</td>
-						<!-- Convert this to a switch on select service_lvl, use selection as update message -->
 						<td><?php
-						if($status = $mysqli->query("SELECT sl_id FROM service_call WHERE sc_id = " . $_GET['id'])){
-							$status = mysqli_fetch_array($status); ?>
-							<label class='radio-inline'><input type='radio' name='optradio' value='2' <?php echo ($status["sl_id"] == 1) ? 'checked="checked"' : '' ?>>Maintenance</label>
-    						<label class='radio-inline'><input type='radio' name='optradio' value='1' <?php echo ($status["sl_id"] == 5) ? 'checked="checked"' : '' ?>>Issue</label>
-							<label class='radio-inline'><input type='radio' name='optradio' value='3' <?php echo ($status["sl_id"] == 10) ? 'checked="checked"' : '' ?>>NonOperating</label>
-							<label class='radio-inline'><input type='radio' name='optradio' value='4'>Completed</label></td></tr>
-							<?php };?>
+						if($options = $mysqli->query("SELECT sl_id,msg FROM service_lvl")){
+							if($status = $mysqli->query("SELECT sl_id FROM service_call WHERE sc_id = " . $_GET['service_call_id'])){
+								$status = mysqli_fetch_array($status);
+								while($row = $options->fetch_array(MYSQLI_ASSOC)){
+									echo "<label class='radio-inline'><input type='radio' name='optradio' value='" . $row['sl_id'] . "'" . (($status['sl_id'] == $row['sl_id']) ? "checked='checked'" : "") . ">" . $row['msg'] . "</label>";
+								}
+								echo "<label class='radio-inline'><input type='radio' name='optradio' value='100'>Completed</label></td></tr>";
+							}
+							else
+								echo "<td align = 'center'>Error loading Service Call</td>";
+						}
+						else
+							echo "<td align = 'center'>Error loading Service Levels</td>";
+						?>
 						<tr>
 							<td>Notes:</td>
 							<td><div class="form-group">
@@ -147,8 +160,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 						
 						</tr>
 						<tr>
-							<td><input class="btn btn-primary pull-right" type="reset"
-								value="Reset"></td>
+							<td><input class="btn btn-primary pull-right" type="reset" value="Reset"></td>
 							<td><input class="btn btn-primary" type="submit" value="Submit"></td>
 						</tr>
 					</table>
