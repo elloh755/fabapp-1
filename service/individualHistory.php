@@ -145,9 +145,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 							if($status = $mysqli->query("SELECT sl_id FROM service_call WHERE sc_id = " . $_GET['service_call_id'])){
 								$status = mysqli_fetch_array($status);
 								while($row = $options->fetch_array(MYSQLI_ASSOC)){
-									echo "<label class='radio-inline'><input type='radio' name='optradio' value='" . $row['sl_id'] . "'" . (($status['sl_id'] == $row['sl_id']) ? "checked='checked'" : "") . ">" . $row['msg'] . "</label>";
+									echo "<label class='radio-inline'><input type='radio' name='service_level' value='" . $row['sl_id'] . "'" . (($status['sl_id'] == $row['sl_id']) ? "checked='checked'" : "") . ">" . $row['msg'] . "</label>";
 								}
-								echo "<label class='radio-inline'><input type='radio' name='optradio' value='100'>Completed</label></td></tr>";
+								echo "<label class='radio-inline'><input type='radio' name='service_level' value='100'>Completed</label></td></tr>";
 							}
 							else
 								echo "<td align = 'center'>Error loading Service Call</td>";

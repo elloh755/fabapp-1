@@ -23,13 +23,13 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	$staffID = $staff->getOperator();
 	$devID = $_POST['dev'];
 
-	switch($_POST['optradio']){
+	switch($_POST['service_level']){
 		case 100:				//case for completed ticket
 			$solvedSt = "Y";
 		break;
 		default:
 			$solvedSt = "N";
-			$sl_id = $_POST['optradio'];
+			$sl_id = $_POST['service_level'];
 		break;
 	}
 
@@ -37,8 +37,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	$srtime = date("Y-m-d h:i:s");
 
 
-	$insert = "INSERT INTO `reply` (`sc_id`, `staff_id`, `sr_notes`, `sr_time`) VALUES ('$sc_id', '$staffID', '$srnotes', '$srtime');";
-	$update = "UPDATE service_call SET `d_id`=". $devID .",`sl_id`=$sl_id,`solved`='$solvedSt' WHERE sc_id = $sc_id";
+	$insert = "INSERT INTO reply (sc_id, staff_id, sr_notes, sr_time) VALUES ($sc_id, $staffID, $srnotes, $srtime);";
+	$update = "UPDATE service_call SET d_id=$devID,sl_id=$sl_id,solved='$solvedSt' WHERE sc_id = $sc_id";
 	if($result = $mysqli->query($insert)){
 		if($result = $mysqli->query($update))
 			$fieldReport= "Your update has been submitted, thank you!";
@@ -56,16 +56,13 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header"><?php echo $fieldReport; ?></h1>
-            
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
-        <p>This page will be redirected in 10 seconds </p>
-        
-        
+        	<p>This page will be redirected in 10 seconds</p>
         </div>
         <!-- /.col-lg-4 -->
     </div>
