@@ -98,16 +98,17 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
     <!-- /.row -->
     <div class="row">
         <div class="col-lg-12">
+        <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;"><p id="errormessage"></p></div>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-ticket fa-fw"></i> Update Ticket
                 </div>
                 <div class="panel-body">
-                   	<form method= "POST"  action="/service/insertReply.php">
+                   	<form name="reply" method= "POST" action="/service/insertReply.php" onsubmit="return validateForm();">
 				<table class="table table-striped">
 				<tr><td>Service Call Number:</td>
 					<td><?php echo "<input type='text' name='service_call_number' value=" . $_GET['service_call_id'] . " readonly>"?></td></tr>
-				<tr><td>Device Description:</td>
+				<tr><td>Device Name:</td>
 					<td>
                     <?php	/* check connection */
 						/*
@@ -181,6 +182,27 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
     </div>
 </div>
 <!-- /#page-wrapper -->
+
+<script type="text/javascript">
+	function validateRadio(radios){
+		for(i = 0; i< radios.length ; ++i)
+			if(radios[i].checked)
+				return true;
+		return false;
+	}
+	function validateForm(){
+		var dev = document.getElementById("dev").value;
+		var radiocheck = false;
+		if(validateRadio(document.forms["reply"]["service_level"]))
+			radiocheck = true;
+		var notes = document.getElementById("notes").value;
+		if(dev == "" ||  notes =="" || radiocheck == false){
+			document.getElementById('errordiv').style.display = 'block';
+			document.getElementById("errormessage").innerHTML = "All fields are required";			
+			return false;
+		}
+	}
+</script>
 <?php
 //Standard call for dependencies
 include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/footer.php');
