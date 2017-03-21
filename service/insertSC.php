@@ -15,7 +15,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 
 <?php 
 
-$fieldReport= "Your service call has been submitted, Thank you!";
+$fieldReport= "Your service call has been submitted.";
 if ($mysqli->connect_errno) {
 	echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 	exit ();
@@ -38,7 +38,8 @@ $sctime = date("Y-m-d h:i:s");
 $toInsert = "INSERT INTO `service_call` (`sc_id`, `staff_id`, `d_id`, `sl_id`, `solved`, `sc_notes`, `sc_time`) VALUES (NULL, '".$staffID."', '".$devID."', '".$slID."', '".$solvedSt."', '".$scnotes."', '".$sctime."');";
 if(!$result = $mysqli->query($toInsert)){
 	$fieldReport = "Error in submitting";
-}
+} 
+
 header("refresh:5; url=/service/newTicket.php");
 
 ?>
