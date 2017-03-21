@@ -96,7 +96,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     					case 4:		//fifth column
                     						echo "<td align='center' style='padding: 2px;'>" . $cols['sc_time'] . "</td>";
                     					break;
-                    					case 5:
+                    					case 5:		//sixth column
                     						if($rows = $mysqli->query("SELECT * FROM reply WHERE sc_id = " . $cols['sc_id'])){
                     							$row_cnt = $rows->num_rows;
                     							echo "<td align='center' style='padding: 2px;'>" . $row_cnt . "</td>";
@@ -104,7 +104,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						else
                     							echo "<td align='center' style='padding: 2px;'>There was an error loading the reply count</td>";
                     					break;
-                    					case 6:		//sixth column
+                    					case 6:		//seventh column
                     						echo "<td align='left' style='padding: 10px;'>" . $cols['sc_notes'] . "</td>";
                     					break;
                     				}

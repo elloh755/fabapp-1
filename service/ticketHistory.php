@@ -119,10 +119,10 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						else
                     							echo "<td align='center' style='padding: 2px;'>There was an error loading the reply count</td>";
                     					break;
-                    					case 6:
+                    					case 6: 	//sixth column
                     						echo "<td align='center' style='padding: 2px;'>" . $cols['solved'] . "</td>";
                     					break;
-                    					case 7:		//sixth column
+                    					case 7:		//seventh column
                     						echo "<td align='left' style='padding: 10px;'>" . $cols['sc_notes'] . "</td>";
                     					break;
                     				}

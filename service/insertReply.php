@@ -37,8 +37,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	$srtime = date("Y-m-d h:i:s");
 
 
-	$insert = "INSERT INTO reply (sc_id, staff_id, sr_notes, sr_time) VALUES ($sc_id, $staffID, $srnotes, $srtime);";
-	$update = "UPDATE service_call SET d_id=$devID,sl_id=$sl_id,solved='$solvedSt' WHERE sc_id = $sc_id";
+	$insert = "INSERT INTO `reply` (`sc_id`, `staff_id`, `sr_notes`, `sr_time`) VALUES ('".$sc_id."', '".$staffID."', '".$srnotes."', '".$srtime."');";
+	$update = "UPDATE `service_call` SET `d_id`=".$devID.",`sl_id`=".$sl_id.",`solved`='".$solvedSt."' WHERE `sc_id` = ".$sc_id;
 	if($result = $mysqli->query($insert)){
 		if($result = $mysqli->query($update))
 			$fieldReport= "Your update has been submitted, thank you!";
