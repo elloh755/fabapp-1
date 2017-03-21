@@ -22,7 +22,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="fa fa-calendar fa-fw"></i> History
+                    <i class="fa fa-calendar fa-fw"></i> Open Tickets
                 </div>
                 <div class="panel-body" style="max-height: 500px; overflow-y: scroll;">
                 	<table width='100%' border='1'><tr>

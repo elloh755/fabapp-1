@@ -59,8 +59,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 												    SELECT r_id
 												    FROM users
 												    AS r_id
-												    WHERE operator = " . $cols['staff_id'] . "
-												);")){
+												    WHERE operator = " . $cols['staff_id'] . ");")){
                     							if($staffName->num_rows > 0){
                     								$staffName = mysqli_fetch_array($staffName, MYSQLI_ASSOC);
                     								echo "<td align='center' style='padding: 2px;'>" . $staffName['title'] . "</td>";
