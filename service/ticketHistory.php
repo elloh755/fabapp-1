@@ -44,9 +44,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 	<table width='100%' border='1'><tr>
                 	<?php 
                     if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes
+                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved
                     FROM service_call
-                    ORDER BY sc_time DESC")){
+                    ORDER BY sc_id ASC")){
                     	if (mysqli_num_rows($result)>0)
                     	{
                     		//loop thru the field names to print the correct headers
@@ -55,12 +55,14 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Device Name</th>";
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Level</th>";
                     		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Ticket Open Date</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Reply Count</th>";
+                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Solved</th>";
                     		echo "<th style='text-align:center' width=\"" . 4*(100/(mysqli_num_fields($result)+3)) . "%\">Service Notes</th></tr>";
                     			
                     		//display the data
                     		while ($cols = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     		{
-                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
+                    			for($i = 0; $i <= mysqli_num_fields($result); $i++){
                     				switch($i){
                     					case 0:		//first column
                     						echo "<td align='center' style='padding: 2px;'>" . $cols['sc_id'] . "</td>";
@@ -109,7 +111,18 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     					case 4:		//fifth column
                     						echo "<td align='center' style='padding: 2px;'>" . $cols['sc_time'] . "</td>";
                     					break;
-                    					case 5:		//sixth column
+                    					case 5:
+                    						if($rows = $mysqli->query("SELECT * FROM reply WHERE sc_id = " . $cols['sc_id'])){
+                    							$row_cnt = $rows->num_rows;
+                    							echo "<td align='center' style='padding: 2px;'>" . $row_cnt . "</td>";
+                    						}
+                    						else
+                    							echo "<td align='center' style='padding: 2px;'>There was an error loading the reply count</td>";
+                    					break;
+                    					case 6:
+                    						echo "<td align='center' style='padding: 2px;'>" . $cols['solved'] . "</td>";
+                    					break;
+                    					case 7:		//sixth column
                     						echo "<td align='left' style='padding: 10px;'>" . $cols['sc_notes'] . "</td>";
                     					break;
                     				}

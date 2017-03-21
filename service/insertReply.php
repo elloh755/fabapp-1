@@ -22,6 +22,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
 	$devID = $_POST['dev'];
+	$sl_id = $_POST['service_level'];
 
 	switch($_POST['service_level']){
 		case 100:				//case for completed ticket
@@ -29,7 +30,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		break;
 		default:
 			$solvedSt = "N";
-			$sl_id = $_POST['service_level'];
 		break;
 	}
 

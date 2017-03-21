@@ -30,7 +30,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     SELECT reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes, service_call.d_id FROM reply LEFT JOIN service_call
 					ON (reply.sc_id=service_call.sc_id)
 					WHERE service_call.sc_id = " . $_GET['service_call_id'] . "
-					ORDER BY reply.sr_time DESC")){
+					ORDER BY reply.sr_id ASC")){
                     	echo "<table width='100%' border='1'><tr>";
                     	if (mysqli_num_rows($result)>0)
                     	{
