@@ -115,7 +115,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 						*	default (first) = current selection
 						*	list contains all devices in current group
 						*/
-                    	echo "<select class='form-control' name='dev'>";
+                    	echo "<select class='form-control' name='dev' id = 'dev'>";
                     	$default_value = "SELECT device_desc,d_id,dg_id FROM devices AS d_id WHERE d_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id = ". $_GET['service_call_id'] . ")";
 						if ($default = $mysqli->query($default_value)){
 							$default = mysqli_fetch_array($default);
@@ -158,7 +158,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 						<tr>
 							<td>Notes:</td>
 							<td><div class="form-group">
-							<textarea class="form-control" rows="5" name="notes" style="resize: none"></textarea>
+							<textarea class="form-control" rows="5" name="notes"  id="notes" style="resize: none"></textarea>
 							</div></td></tr>
 						<tr>
 							<td>Staff ID</td>
@@ -195,7 +195,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		if(validateLevel(document.forms["reply"]["service_level"]))
 			radiocheck = true;
 		var notes = document.getElementById("notes").value;
-		if(dev == "" ||  notes =="" || radiocheck == false){
+		if(dev == "" ||  notes == "" || radiocheck == false){
 			document.getElementById('errordiv').style.display = 'block';
 			document.getElementById("errormessage").innerHTML = "All fields are required";			
 			return false;

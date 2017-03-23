@@ -32,8 +32,7 @@ function gatekeeper ($operator, $device_id) {
         LEFT JOIN devices
         ON devices.d_id = transactions.d_id
         WHERE device_id = $device_id AND status_id < 12
-        LIMIT 1;
-    ")){
+        LIMIT 1;")){
         if( $result->num_rows > 0){
             return array ("status_id" => 1, "ERROR" => "Can not start new print on this printer until previous ticket has been closed.", "authorized" => "N");
         }
