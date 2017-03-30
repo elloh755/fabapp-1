@@ -21,13 +21,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
-	$devID = $_POST['dev'];
-	
-	/*if($_POST['dev'] == 0){
-			echo "Invalid Machine Choice";
-			exit ();
-	}else 
-		$devID = $_POST['dev'];*/
 	
 	$machine = "SELECT device_desc FROM devices WHERE d_id = " . $devID;
 	$sl_id = $_POST['service_level'];
@@ -42,13 +35,23 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 			$solvedSt = "N";
 		break;
 	}
+	
+	if($_POST['dev'] == 0){
+			echo "Invalid Machine Choice";
+			exit ();
+	}else 
+		$devID = $_POST['dev'];
+	
+	$sl_id = $_POST['service_level'];
+	$srnotes = $_POST['notes'];
+	$srtime = date("Y-m-d h:i:s");
 
-	/*if($_POST['service_level'] == 100){
+	if($_POST['service_level'] == 100){
 		//case for completed ticket
-		$solvedSt = "Y";
+		$solvedSt = "Y"; 
 		$srnotes .= "\nTicket marked as completed.";
 	}else
-		$solvedSt = "N";*/
+		$solvedSt = "N";
 	
 	$insert = "INSERT INTO `reply` (`sc_id`, `staff_id`, `sr_notes`, `sr_time`) VALUES ('".$sc_id."', '".$staffID."', '".$srnotes."', '".$srtime."');";
 	$update = "UPDATE `service_call` SET `d_id`=".$devID.",`sl_id`=".$sl_id.",`solved`='".$solvedSt."' WHERE `sc_id` = ".$sc_id;
