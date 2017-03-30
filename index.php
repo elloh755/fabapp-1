@@ -43,13 +43,34 @@ $_SESSION['type'] = "home";
                     ORDER BY dg_parent DESC, dg_id, `device_desc`
             ")){
                     while ( $row = $result->fetch_assoc() ){ ?>
-                    <tr class="tablerow">
-                            <?php if($row["t_start"]) { ?>
+                    <tr class="tablerow"><?php
+                    	//look up current device status
+                    	$color = "white";
+                    	$lookup = "SELECT * FROM `service_call` WHERE d_id = " . $row['d_id'] . " ORDER BY sc_time DESC LIMIT 1";
+                    	if($status = $mysqli->query($lookup)){
+                    		$status = $status->fetch_assoc();
+                    		switch ($status['solved']){
+                    			case 'Y':
+                    			case 'y':
+                    				$color = "green";
+                    			break;
+                    			case 'N':
+                    			case 'n':
+                    				if($status['sl_id'] < 7)
+                    					$color = "yellow";
+                    				else 
+                    					$color = "red";
+                    			break;
+                    		}
+                    		if($status == NULL)
+                    			$color = "green";
+                    	}
+                    	if($row["t_start"]) { ?>
                                     <td align="right"><?php echo $row["trans_id"]; ?></td>
                                     <?php if($row['url'] && (preg_match($sv['ip_range_1'],getenv('REMOTE_ADDR')) || preg_match($sv['ip_range_2'],getenv('REMOTE_ADDR'))) ){ ?>
                                             <td><?php echo ("<a href=\"http://".$row["url"]."\">".$row["device_desc"]."</a>"); ?></td>
-                                    <?php }else{ ?>
-                                            <td><?php echo $row["device_desc"]; ?></td><?php }
+                                    <?php }else{
+                                            echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $row["device_desc"] . "</td>";  }
                                     echo("<td>".date( 'M d g:i a',strtotime($row["t_start"]) )."</td>" );
                                     if( isset($row["est_time"]) ){
                                             echo("<td align=\"center\"><div id=\"est".$row["trans_id"]."\">".$row["est_time"]." </div></td>" ); 
@@ -71,8 +92,8 @@ $_SESSION['type'] = "home";
                                     <td align="right"></td>
                                     <?php if($row['url'] && (preg_match($sv['ip_range_1'],getenv('REMOTE_ADDR')) || preg_match($sv['ip_range_2'],getenv('REMOTE_ADDR'))) ){ ?>
                                             <td><?php echo ("<a href=\"http://".$row["url"]."\">".$row["device_desc"]."</a>"); ?></td>
-                                    <?php }else{ ?>
-                                            <td><?php echo $row["device_desc"]; ?></td><?php }?>
+                                    <?php }else{
+                                            echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $row["device_desc"] . "</td>"; }?>
                                     <td align="center"> - </td>
                                     <td align="center"> - </td>
                                     <?php if($row["url"] && $staff){ ?>
