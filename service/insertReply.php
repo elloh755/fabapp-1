@@ -22,8 +22,18 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
 	$devID = $_POST['dev'];
+	
+	/*if($_POST['dev'] == 0){
+			echo "Invalid Machine Choice";
+			exit ();
+	}else 
+		$devID = $_POST['dev'];*/
+	
+	$machine = "SELECT device_desc FROM devices WHERE d_id = " . $devID;
 	$sl_id = $_POST['service_level'];
-
+	$srnotes = $_POST['notes'];
+	$srtime = date("Y-m-d h:i:s");
+	
 	switch($_POST['service_level']){
 		case 100:				//case for completed ticket
 			$solvedSt = "Y";
@@ -33,15 +43,24 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		break;
 	}
 
-	$srnotes = $_POST['notes'];
-	$srtime = date("Y-m-d h:i:s");
-
-
+	/*if($_POST['service_level'] == 100){
+		//case for completed ticket
+		$solvedSt = "Y";
+		$srnotes .= "\nTicket marked as completed.";
+	}else
+		$solvedSt = "N";*/
+	
 	$insert = "INSERT INTO `reply` (`sc_id`, `staff_id`, `sr_notes`, `sr_time`) VALUES ('".$sc_id."', '".$staffID."', '".$srnotes."', '".$srtime."');";
 	$update = "UPDATE `service_call` SET `d_id`=".$devID.",`sl_id`=".$sl_id.",`solved`='".$solvedSt."' WHERE `sc_id` = ".$sc_id;
 	if($result = $mysqli->query($insert)){
 		if($result = $mysqli->query($update))
 			$fieldReport= "Your update has been submitted, thank you!";
+		/*if($result = $mysqli->query($update)){
+			if($sent = mail($emailList, $subject, $message, $headers))
+				$fieldReport = "Your update has been submitted, thank you!";
+			else
+				$fieldReport = "Notification Error\nData Submitted.";
+		}*/
 		else
 			$fieldReport = "Error in updating";
 	}

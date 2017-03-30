@@ -28,7 +28,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 	<table width='100%' border='1'><tr>
                     <?php 
                     if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes
+                    SELECT *
                     FROM service_call
                     WHERE solved = 'N'
                     ORDER BY sc_id ASC")){
@@ -50,7 +50,14 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     			for($i = 0; $i <= mysqli_num_fields($result); $i++){
                     				switch($i){
                     					case 0:		//first column
-                    						echo "<td align='center' style='padding: 2px;'>" . $cols['sc_id'] . "</td>";
+                    						if ($cols['solved'] == 'Y')
+                    							echo "<td align='center' style='padding: 2px;'>Green light\t" . $cols['sc_id'] . "</td>";
+                    						else{
+                    							if($cols['sc_id'] < 7)
+                    								echo "<td align='center' style='padding: 2px;'>Red light\t" . $cols['sc_id'] . "</td>";
+                    							else
+                    								echo "<td align='center' style='padding: 2px;'>Yellow light\t" . $cols['sc_id'] . "</td>";
+                    						}
                     					break;
                     					case 1:		//second column
                     						if($staffName = $mysqli->query("
