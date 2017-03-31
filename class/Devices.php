@@ -239,10 +239,12 @@ class Devices {
     		else
     			$color = "red";
     	}
-    	if($staff){	//TODO logged in, add hyperlink with filters
-    		echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</a></td>";
+    	if($staff){
+    		if($staff->getRoleID() > 7)
+    			echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</a></td>";
+    		else echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</td>";
     	}
-    	else{		//TODO not logged in, no link
+    	else{
     		echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</td>";
     	}
     }
