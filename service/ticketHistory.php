@@ -43,10 +43,11 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 <div class="panel-body" style="max-height: 500px; overflow-y: scroll;">
                 	<table width='100%' border='1'><tr>
                 	<?php 
-                    if ($result = $mysqli->query("
-                    SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved
-                    FROM service_call
-                    ORDER BY sc_id ASC")){
+                	if(isset($_GET['d_id']))
+                		$query = "SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call WHERE d_id = " . $_GET['d_id']. " ORDER BY sc_id ASC";
+                	else
+                		$query = "SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call ORDER BY sc_id ASC";
+                	if ($result = $mysqli->query($query)){
                     	if (mysqli_num_rows($result)>0)
                     	{
                     		//loop thru the field names to print the correct headers

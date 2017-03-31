@@ -221,4 +221,30 @@ class Devices {
         $this->device_key = $device_key;
     }
     
+    public static function printDot($staff,$d_id,$device_desc){
+    	global $mysqli;
+    	//look up current device status
+    	$dot = 0;
+    	$color = "white";
+    	$lookup = "SELECT * FROM `service_call` WHERE d_id = " . $d_id . " AND solved = 'N' ORDER BY sc_time DESC";
+    	if($status = $mysqli->query($lookup)){
+    		while ($ticket = $status->fetch_assoc()){
+    			if($ticket['sl_id'] > $dot)
+    				$dot = $ticket['sl_id'];
+    		}
+    		if($status == NULL || $dot == 0)
+    			$color = "green";
+    		elseif($dot < 7)
+    			$color = "yellow";
+    		else
+    			$color = "red";
+    	}
+    	if($staff){	//TODO logged in, add hyperlink with filters
+    		echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</a></td>";
+    	}
+    	else{		//TODO not logged in, no link
+    		echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</td>";
+    	}
+    }
+    
 }
