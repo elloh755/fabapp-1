@@ -241,7 +241,7 @@ class Devices {
     	}
     	if($staff){
     		if($staff->getRoleID() > 7)
-    			echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</a></td>";
+    			echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle' style='color:".$color."'></i>    " . $device_desc . "</a></td>"; //TODO add space to print statement
     		else echo "<td><i class='fa fa-circle' style='color:".$color."'></i>" . "\t" . $device_desc . "</td>";
     	}
     	else{
