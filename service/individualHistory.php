@@ -25,7 +25,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     <i class="fa fa-calendar-check-o fa-fw"></i> Replies
                 </div>
                 <div class="panel-body" style="max-height: 150px; overflow-y: scroll;">
-                    <?php 
+                    <?php
                     if ($result = $mysqli->query("
                     SELECT reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes, service_call.d_id FROM reply LEFT JOIN service_call
 					ON (reply.sc_id=service_call.sc_id)
@@ -95,6 +95,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         </div>
     </div>
     <!-- /.row -->
+    <?php if($staff->getRoleID() != 8 && $staff->getRoleID() != 9){ ?>
     <div class="row">
         <div class="col-lg-12">
         <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;"><p id="errormessage"></p></div>
@@ -109,12 +110,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 					<td><?php echo "<input type='text' name='service_call_number' value=" . $_GET['service_call_id'] . " readonly>"?></td></tr>
 				<tr><td>Device Name:</td>
 					<td>
-                    <?php	/* check connection */
-						/*
-						*	dynamic dropdown
-						*	default (first) = current selection
-						*	list contains all devices in current group
-						*/
+                    <?php
                     	echo "<select class='form-control' name='dev' id = 'dev'>";
                     	$default_value = "SELECT device_desc,d_id,dg_id FROM devices AS d_id WHERE d_id = (SELECT d_id FROM service_call AS d_id WHERE sc_id = ". $_GET['service_call_id'] . ")";
 						if ($default = $mysqli->query($default_value)){
@@ -179,6 +175,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         </div>
         <!-- /.col-lg-8 -->
     </div>
+    <?php }?>
 </div>
 <!-- /#page-wrapper -->
 

@@ -51,7 +51,7 @@ $_SESSION['type'] = "home";
 					                                    <?php }else{
 					                                    	//echo "<td>".$row['device_desc']."</td>";
 					                                    	Devices::printDot($staff,$row['d_id'],$row["device_desc"]);  
-					                                    } //TODO here
+					                                    }
 					                                    echo("<td>".date( 'M d g:i a',strtotime($row["t_start"]) )."</td>" );
 					                                    if( isset($row["est_time"]) ){
 					                                            echo("<td align=\"center\"><div id=\"est".$row["trans_id"]."\">".$row["est_time"]." </div></td>" ); 
@@ -76,7 +76,7 @@ $_SESSION['type'] = "home";
 					                                    <?php }else{
 					                                    	//echo "<td>".$row['device_desc']."</td>";
 					                                    	Devices::printDot($staff,$row['d_id'],$row["device_desc"]);  
-					                                    } //TODO here
+					                                    }
 					                                    echo "<td align=\"center\"> - </td>
 															  <td align=\"center\"> - </td>";
 					                                    	if($row["url"] && $staff){ ?>
