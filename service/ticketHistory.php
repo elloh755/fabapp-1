@@ -127,7 +127,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     					case 3: 	//fourth
                     						if($rows = $mysqli->query("SELECT * FROM reply WHERE sc_id = " . $cols['sc_id'])){
                     							$row_cnt = $rows->num_rows;
-                    							echo "<td align='center' style='padding: 15px'><a href = 'http://fabapp:8080/service/individualHistory.php?service_call_id=".$cols['sc_id']."'>" . $row_cnt . "</td>";
+                    							echo "<td align='center' style='padding: 15px'><a href = '/service/individualHistory.php?service_call_id=".$cols['sc_id']."'>" . $row_cnt . "</td>";
                     						}
                     						else
                     							echo "<td align='center' style='padding: 15px'>There was an error loading the reply count</td>";

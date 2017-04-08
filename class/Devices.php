@@ -241,7 +241,7 @@ class Devices {
     	}
     	if($staff){
     		if($staff->getRoleID() > 7)
-    			echo "<td><a href = 'http://fabapp:8080/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</a></td>";
+    			echo "<td><a href = '/service/ticketHistory.php?d_id=".$d_id."'><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</a></td>";
     		else
     			echo "<td><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
     	}
