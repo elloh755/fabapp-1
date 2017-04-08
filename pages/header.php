@@ -11,6 +11,10 @@
     
     <link href="/vendor/fabapp/fabapp.css?=v3" rel="stylesheet">
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="/vendor/jquery/jquery-1.12.4.js" rel="stylesheet">
+    <link href="/vendor/jquery/jquery.dataTables.min.js" rel="stylesheet">
+    <link href="/vendor/jquery/jquery.dataTables.min.css" rel="stylesheet">
     <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="/vendor/blackrock-digital/css/sb-admin-2.css?=v8" rel="stylesheet">
     <link href="/vendor/morrisjs/morris.css" rel="stylesheet">

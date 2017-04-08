@@ -71,7 +71,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     		echo "</thead>";
                     			
                     		//display the data
-                    		echo "<body>";
+                    		echo "<tbody>";
                     		while ($cols = mysqli_fetch_array($result, MYSQLI_ASSOC))
                     		{
                     			for($i = 0; $i <= mysqli_num_fields($result); $i++){
@@ -154,8 +154,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     }
                     else{
                     	echo "<tr><td align='center' style='padding: 6px;'>No Results Found!</td></tr>";
-                    }
-                    echo "</body>";?>
+                    }?>
+                    </tbody>
                     </table>
                    <!-- </div> -->
             </div>

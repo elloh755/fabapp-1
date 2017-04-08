@@ -50,7 +50,7 @@ $_SESSION['type'] = "home";
 					                                            <td><?php echo ("<a href=\"http://".$row["url"]."\">".$row["device_desc"]."</a>"); ?></td>
 					                                    <?php }else{
 					                                    	//echo "<td>".$row['device_desc']."</td>";
-					                                    	Devices::printDot($staff,$row['d_id'],$row["device_desc"]);  
+					                                    	Devices::printDot($staff,$row['d_id'],$row["device_desc"]);
 					                                    }
 					                                    echo("<td>".date( 'M d g:i a',strtotime($row["t_start"]) )."</td>" );
 					                                    if( isset($row["est_time"]) ){
