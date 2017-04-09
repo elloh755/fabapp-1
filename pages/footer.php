@@ -31,8 +31,5 @@
     <script src="/vendor/metisMenu/metisMenu.min.js"></script>
     <script src="/vendor/morrisjs/morris.min.js"></script>
     <script src="/vendor/raphael/raphael.min.js"></script>
-    <script src="/vendor/jquery/jquery.dataTables.min.js"></script>
-    
-    <!-- <script src="/vendor/jquery/jquery-1.12.4.js"></script> -->
 </body>
 </html>

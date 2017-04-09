@@ -11,163 +11,114 @@
  */
 
 
-class Devices {
+class Service_call {
+    private $sc_id;
     private $d_id;
-    private $device_id;
-    private $public_view;
-    private $device_desc;
-    private $d_duration;
-    private $base_price;
-    private $dg_id;
-    private $url;
-    private $device_key;
+    private $staff_id;
+    private $sl_id;
+    private $solved;
+    private $sc_notes;
+    private $sc_time;
+    private $user;
     
-    public function __construct($d_id) {
+    public function __construct($sc_id) {
         global $mysqli;
-        $this->d_id = $d_id;
-        
+        $this->sc_id = $sc_id;
         
         if ($result = $mysqli->query("
              SELECT *
-             FROM `Devices`
-             WHERE `d_id` = '$d_id';
+             FROM `service_call`
+             WHERE `sc_id` = '$sc_id';
         ")){
             $row = $result->fetch_assoc();
             
-            $this->setDevice_id($row['device_id']);
-            $this->setDevice_desc($row['device_desc']);
-            $this->setPublic_view($row['public_view']);
-            $this->setD_duration($row['d_duration']);
-            $this->setBase_price($row['base_price']);
-            $this->setDg_id($row['dg_id']);
-            $this->setUrl($row['url']);
-            $this->setDevice_key($row['device_key']);
+            $this->setD_id($row['d_id']);
+            $this->setStaff_id($row['staff_id']);
+            $this->setSl_id($row['sl_id']);
+            $this->setSolved($row['solved']);
+            $this->setNotes($row['sc_notes']);
+            $this->setTime($row['sc_time']);
+            $this->setUser($row['staff_id']);
             $result->close();
         } else
-            throw new Exception("Invalid Device ID");
+            throw new Exception("Invalid Service Call ID");
     }
     
-    public static function is_open($d_id){
+    public static function is_solved($sc_id){
         global $mysqli;
         
         if($result = $mysqli->query("
-            SELECT * 
-            FROM `transactions`
-            WHERE d_id = '$d_id' AND `status_id` < 12
+            SELECT solved
+            FROM `service_call`
+            WHERE sc_id = '$sc_id'
         ")){
-            if ($result->num_rows > 0)
+            if ($result->fetch_assoc()->solved == 'Y')
                 return true;
             return false;
         }
         return false;
     }
 
-    public static function regexDID($d_id){
-		global $mysqli;
-        if (preg_match("/^\d+$/", $d_id) == 0){
-            echo "Invalid D ID.";
-            return false;
-        }
-        
-        //Check to see if device exists
-        if ($result = $mysqli->query("
-            SELECT *
-            FROM `devices`
-            WHERE `d_id` = '$d_id'
-            LIMIT 1;
-        ")){
-            if ($result->num_rows == 1)
-                return true;
-            return false;
-        } else {
-            return false;
-        }
+    public function getSc_id() {
+        return $this->d_id;
     }
-    
-    public static function regexDeviceID($device_id){
-        if (preg_match("/^\d{4}$/", $d_id) == 0){
-            echo "Invalid Device ID. ";
-            return false;
-            
-        }//Check to see if device exists
-        if ($result = $mysqli->query("
-            SELECT *
-            FROM `devices`
-            WHERE `device_id` = '$device_id'
-            LIMIT 1;
-        ")){
-            if ($result->num_rows == 1)
-                return true;
-            return false;
-        } else {
-            return false;
-        }
-    }
-    
+
     public function getD_id() {
         return $this->d_id;
     }
 
-    public function getDevice_id() {
-        return $this->device_id;
+    public function getStaff_id() {
+        return $this->staff_id;
     }
 
-    public function getPublic_view() {
-        return $this->public_view;
+    public function getSl_id() {
+        return $this->sl_id;
     }
 
-    public function getD_duration() {
-        return $this->d_duration;
+    public function getSolved() {
+        return $this->solved;
     }
 
-    public function getBase_price() {
-        return $this->base_price;
-    }
-
-    public function getDg_id() {
-        return $this->dg_id;
+    public function getNotes() {
+        return $this->sc_notes;
     }
     
-    public function getDg_Name(){
+    public function getTime() {
+    	return $this->sc_time;
+    }
+    
+    public function getDevice_desc(){
         global $mysqli;
         
         if($result = $mysqli->query("
-            SELECT `dg_name`
-            FROM `device_group`
-            WHERE `dg_id` = '".$this->dg_id."'
+            SELECT device_desc
+            FROM `devices`
+            WHERE d_id = ".$this->d_id."
             LIMIT 1;
         ")){
             $row = $result->fetch_assoc();
-            return $row['dg_name'];
+            return $row['device_desc'];
         }
         return "Not Found";
     }
     
-    public function getDg_Parent(){
+    public function getService_lvl(){
         global $mysqli;
         
         if($result = $mysqli->query("
-            SELECT `dg_parent`
-            FROM `device_group`
-            WHERE `dg_id` = '".$this->dg_id."'
+            SELECT msg
+            FROM service_lvl
+            WHERE sl_id = " . $this->sl_id . "
             LIMIT 1;
         ")){
             $row = $result->fetch_assoc();
-            return $row['dg_parent'];
+            return $row['msg'];
         }
         return false;
     }
 
-    public function getUrl() {
-        return $this->url;
-    }
-
-    public function getDevice_key() {
-        return $this->device_key;
-    }
-    
-    public function getDevice_desc() {
-        return $this->device_desc;
+    public function getUser() {
+        return $this->user;
     }
 
     public function setD_id($d_id) {

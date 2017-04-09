@@ -11,18 +11,14 @@
  */
 
 
-class Devices {
-    private $d_id;
-    private $device_id;
-    private $public_view;
-    private $device_desc;
-    private $d_duration;
-    private $base_price;
-    private $dg_id;
-    private $url;
-    private $device_key;
+class Service_reply {
+    private $sr_id;
+    private $sc_id;
+    private $staff_id;
+    private $sr_notes;
+    private $sr_time;
     
-    public function __construct($d_id) {
+    public function __construct($sr_id) {
         global $mysqli;
         $this->d_id = $d_id;
         
