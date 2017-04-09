@@ -41,7 +41,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     <i class="fa fa-folder fa-fw"></i> Results
                 </div>
                 <div class="panel-body" style="max-height: 500px; overflow-y: scroll;"> //TODO this is commented out to test the new output -->
-                <div id="results" class="dataTables_wrapper"><div class="dataTables_length" id="example_length">
+                <div id="results" class="dataTables_wrapper"><div class="dataTables_length" id="history_length">
                 	<label>Show <select name="example_length" aria-controls="example" class="">
 	                	<option value="10">10</option>
 	                	<option value="25">25</option>
@@ -49,9 +49,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	                	<option value="100">100</option>
                 	</select> entries</label></div>
                 	<div id="search" class="dataTables_filter">
-                		<label>Search:<input type="search" class="" placeholder="" aria-controls="example"></label>
+                		<label>Search:<input type="search" class="" placeholder="" aria-controls="history"></label>
                 	</div>
-                	<table class="table table-striped table-bordered" width='100%' border='1' id="history"><tr>
+                	<table class="table table-striped table-bordered" id="history"><tr>
                 	<?php 
                 	if(isset($_GET['d_id']))
                 		$query = "SELECT sc_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call WHERE d_id = " . $_GET['d_id']. " ORDER BY sc_id ASC";
@@ -165,7 +165,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
     <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-<script type="text/javascript">
+<script type="text/javascript" class="init">
 	$(document).ready(function() {
 	    $('#history').DataTable();
 	} );
