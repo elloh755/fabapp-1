@@ -25,69 +25,61 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     <i class="fa fa-calendar-check-o fa-fw"></i> Replies
                 </div>
                 <div class="panel-body" style="max-height: 150px; overflow-y: scroll;">
+                	<table class="table table-striped table-bordered" border='1'>
                     <?php
-                    if ($result = $mysqli->query("
-                    SELECT reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes, service_call.d_id FROM reply LEFT JOIN service_call
-					ON (reply.sc_id=service_call.sc_id)
-					WHERE service_call.sc_id = " . $_GET['service_call_id'] . "
-					ORDER BY reply.sr_id ASC")){
-                    	echo "<table width='100%' border='1'><tr>";
-                    	if (mysqli_num_rows($result)>0)
-                    	{
-                    		//loop thru the field names to print the correct headers
-                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Reply ID</th>";
-                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Staff Level</th>";
-                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Service Reply Date</th>";
-                    		echo "<th style='text-align:center' width=\"" . 4*(100/(mysqli_num_fields($result)+3)) . "%\">Service Reply Notes</th>";
-                    		echo "</tr>";
-                    			
-                    		//display the data
-                    		
-                    		while ($cols = mysqli_fetch_array($result,MYSQLI_ASSOC))
-                    		{
-                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
-                    				switch($i){
-                    					case 0:		//first column
-                    						echo "<td align='center' style='padding: 2px;'>" . $cols['sr_id'] . "</td>";
-                    					break;
-                    					case 1:		//second column
-                    						if($staffName = $mysqli->query("
-                    							SELECT title
-												FROM role
-												AS title
-												WHERE r_id = (
-												    SELECT r_id
+                    $exists = $mysqli->query("SELECT * FROM service_call WHERE sc_id = " . $_GET['service_call_id']);
+                    if($exists->num_rows > 0){
+	                    if ($result = $mysqli->query("
+	                    SELECT reply.sr_id, reply.staff_id, reply.sr_time, reply.sr_notes, service_call.d_id FROM reply LEFT JOIN service_call
+						ON (reply.sc_id=service_call.sc_id)
+						WHERE service_call.sc_id = " . $_GET['service_call_id'] . "
+						ORDER BY reply.sr_id ASC")){
+							if ($result->num_rows > 0){
+		                    		echo "<thead><tr>";
+			                    		//loop thru the field names to print the correct headers
+			                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">On</th>";
+			                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">By</th>";
+			                    		echo "<th style='text-align:center' width=\"" . 4*(100/(mysqli_num_fields($result)+3)) . "%\">Service Reply Notes</th>";
+		                    		echo "</thead></tr>";
+		                    			
+		                    		//display the data
+		                    		echo "<tbody>";
+		                    		while ($cols = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+		                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
+		                    				switch($i){
+		                    					case 0:		//On
+		                    						echo "<td align='center' style='padding: 15px'>" . date('M d g:i a', strtotime($cols['sr_time'])) . "</td>" ;
+		                    					break;
+		                    					case 1:		//By
+		                    						if($staffIcon = $mysqli->query("
+												    SELECT icon
 												    FROM users
-												    AS r_id
-												    WHERE operator = " . $cols['staff_id'] . ");")){
-                    							if($staffName->num_rows > 0){
-                    								$staffName = mysqli_fetch_array($staffName, MYSQLI_ASSOC);
-                    								echo "<td align='center' style='padding: 2px;'>" . $staffName['title'] . "</td>";
-                    							}
-                    							else
-                    								echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
-                    						}
-                    						else
-                    							echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
-                    					break;
-                    					case 2:		//third column
-                    						echo "<td align='center' style='padding: 2px;'>" . $cols['sr_time'] . "</td>";
-                   						break;
-                    					case 3:		//fourth column
-                    						echo "<td align='left' style='padding: 10px;'>" . $cols['sr_notes'] . "</td>";
-                   						break;
-                    				}
-                    			}
-                    			echo "</tr>";
-                    		}
-                    	}else{
-                    		echo "<tr><td align = 'center'>No history to display!</td></tr>";
-                    	}
-                    	echo "</table>";
-                    }
-                    else{
-                    	echo "<tr><td align = 'center'>No history to display!</td></tr>";
-                	} ?>
+												    WHERE operator = " . $cols['staff_id'])){
+													    if($staffIcon->num_rows > 0){
+													    	$staffIcon = mysqli_fetch_array($staffIcon, MYSQLI_ASSOC);
+													    	echo "<td align='center' style='padding: 15px'><i class='fa fa-" . $staffIcon['icon'] . " fa-lg fa-fw'></i></td>";
+													    }
+													    else
+													    	echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
+		                    						}
+		                    						else
+		                    							echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
+		                    					break;
+		                    					case 2:		//Notes
+		                    						echo "<td align='left' style='padding: 10px;'>" . $cols['sr_notes'] . "</td>";
+		                   						break;
+		                    				}
+		                    			}
+		                    			echo "</tr>";
+		                    		}
+		                    	}else{
+		                    		echo "<tr><td align = 'center'>No history to display!</td></tr>";
+		                    	}
+		                    }
+						}
+						else 
+							echo "<tr><td align = 'center'>Ticket number: " . $_GET['service_call_id']. " does not exist!</td></tr>";?>
+						</tbody></table>
                    </div>
                 <!-- /.panel-body -->
             </div>
@@ -95,7 +87,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
         </div>
     </div>
     <!-- /.row -->
-    <?php if($staff->getRoleID() != 8 && $staff->getRoleID() != 9){ ?>
+    <?php if($staff->getRoleID() != 8 && $staff->getRoleID() != 9 && $exists->num_rows > 0){ ?>
     <div class="row">
         <div class="col-lg-12">
         <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;"><p id="errormessage"></p></div>
@@ -105,7 +97,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 </div>
                 <div class="panel-body">
                    	<form name="reply" method= "POST" action="/service/insertReply.php" onsubmit="return validateReply();">
-				<table class="table table-striped">
+				<table class="table table-striped table-bordered">
 				<tr><td>Service Call Number:</td>
 					<td><?php echo "<input type='text' name='service_call_number' value=" . $_GET['service_call_id'] . " readonly>"?></td></tr>
 				<tr><td>Device Name:</td>

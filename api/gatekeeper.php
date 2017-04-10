@@ -66,14 +66,7 @@ function gatekeeper ($operator, $device_id) {
 		}
 	}
 	elseif($color == "yellow"){
-		switch($role){
-			case 7:
-			case 10:
-				return array ("status_id" => 10, "authorized" => "Y");
-			default:
-				return array ("status_id" => 1, "ERROR" => "Maintenance required.", "authorized" => "N");
-			break;
-		}
+		return array ("status_id" => 1, "ERROR" => "Maintenance required.", "authorized" => "Y");
 	}
     
     //Deny if operator has unpaid balance or objects in storage

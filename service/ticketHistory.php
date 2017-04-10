@@ -99,7 +99,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						}
                     						else
                     							echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
-                    						//<td><i class="fa fa-<?php if ( $service_call->getUser()->getIcon() ) echo  $service_call->getUser()->getIcon(); else echo "user"; fa-fw"></i><td>
                     					break;
                     					case 3: 	//Reply Count
                     						if($rows = $mysqli->query("SELECT * FROM reply WHERE sc_id = " . $cols['sc_id'])){
