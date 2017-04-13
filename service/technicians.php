@@ -25,7 +25,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     <i class="fa fa-calendar fa-fw"></i> Open Tickets
                 </div>
                 <div class="panel-body" style="max-height: 500px; overflow-y: scroll;"> -->
-                	<table class="table table-striped table-bordered" width='100%' border='1' id="history"><tr>
+                	<table class="table table-striped table-bordered" border='1' id="history"><tr>
                     <?php 
                     if ($result = $mysqli->query("
                     SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes
@@ -87,7 +87,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						if($serviceLevel = $mysqli->query("SELECT msg FROM service_lvl WHERE sl_id = " . $cols['sl_id'])){
                     							if($serviceLevel->num_rows > 0){
                     								$serviceLevel = mysqli_fetch_array($serviceLevel, MYSQLI_ASSOC);
-                    								echo "<td align='center' style='padding: 15px'>" . $serviceLevel['msg'] . " - " . $cols['sc_notes'] . "</td>";
+                    								echo "<td align='center' style='padding: 15px'><strong>" . $serviceLevel['msg'] . "</strong> - " . $cols['sc_notes'] . "</td>";
                     							}
                     							else
                     								echo "<td align='center' style='padding: 15px'>Invalid Service Level</td>";

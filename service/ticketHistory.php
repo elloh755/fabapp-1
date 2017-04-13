@@ -122,7 +122,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						if($serviceLevel = $mysqli->query("SELECT msg FROM service_lvl WHERE sl_id = " . $cols['sl_id'])){
                     							if($serviceLevel->num_rows > 0){
                     								$serviceLevel = mysqli_fetch_array($serviceLevel, MYSQLI_ASSOC);
-                    								echo "<td align='center' style='padding: 15px'>" . $serviceLevel['msg'] . " - " . $cols['sc_notes'] . "</td>";
+                    								echo "<td align='center' style='padding: 15px'><strong>" . $serviceLevel['msg'] . "</strong> - " . $cols['sc_notes'] . "</td>";
                     							}
                     							else
                     								echo "<td align='center' style='padding: 2px'>Invalid Service Level</td>";
