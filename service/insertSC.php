@@ -40,6 +40,7 @@ if(!$result = $mysqli->query($toInsert)){
 	$fieldReport = "Error in submitting";
 } 
 
+
 header("refresh:5; url=/service/newTicket.php");
 
 ?>
