@@ -226,6 +226,7 @@ class Devices {
     	//look up current device status
     	$dot = 0;
     	$color = "white";
+    	$symbol = "circle";
     	$lookup = "SELECT * FROM `service_call` WHERE d_id = " . $d_id . " AND solved = 'N' ORDER BY sc_time DESC";
     	if($status = $mysqli->query($lookup)){
     		while ($ticket = $status->fetch_assoc()){
@@ -236,17 +237,19 @@ class Devices {
     			$color = "green";
     		elseif($dot < 7)
     			$color = "yellow";
-    		else
+    		else{
     			$color = "red";
+    			$symbol = "times";
+    		}
     	}
     	if($staff){
     		if($staff->getRoleID() > 7)
-    			echo "<td><a href = '/service/ticketHistory.php?device_id=".$d_id."'><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</a></td>";
+    			echo "<td><a href = '/service/ticketHistory.php?device_id=".$d_id."'><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i></a>&nbsp; " . $device_desc . "</td>";
     		else
-    			echo "<td><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
+    			echo "<td><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
     	}
     	else{
-    		echo "<td><i class='fa fa-circle fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
+    		echo "<td><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
     	}
     }
     

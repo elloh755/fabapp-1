@@ -54,7 +54,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 	<table class="table table-striped table-bordered" id="history"><tr>
                 	<?php 
                 	if(isset($_GET['device_id']))
-                		$query = "SELECT sc_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call WHERE d_id = " . $_GET['device_id']. " ORDER BY sc_id ASC";
+                		$query = "SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call WHERE d_id = " . $_GET['device_id']. " ORDER BY sc_id ASC";
                 	else
                 		$query = "SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call ORDER BY sc_id ASC";
                 	if ($result = $mysqli->query($query)){

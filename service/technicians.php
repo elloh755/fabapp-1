@@ -37,8 +37,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     		//loop thru the field names to print the correct headers
                     		echo "<thead>";
 	                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Device Name</th>";
-	                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Staff Level</th>";
 	                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Opened</th>";
+	                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">By</th>";
 	                    		echo "<th style='text-align:center' width=\"" . 100/(mysqli_num_fields($result)+3) . "%\">Reply Count</th>";
 	                    		echo "<th style='text-align:center' width=\"" . 4*(100/(mysqli_num_fields($result)+3)) . "%\">Service Notes</th></tr>";
 	                    	echo "</thead>";
@@ -57,7 +57,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						else
                     							echo "<td align='center' style='padding: 15px'>Invalid Machine ID</td>";
                     					break;
-                    					case 1:		//Staff Level
+                    					case 2:		//Staff Level
                     						if($staffIcon = $mysqli->query("
 											    SELECT icon
 											    FROM users
@@ -72,7 +72,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                     						else
                     							echo "<td align='center' style='padding: 2px;'>Invalid User ID</td>";
                     					break;
-                    					case 2:		//Opened
+                    					case 1:		//Opened
                     						echo("<td align='center' style='padding: 15px'>" . date('M d g:i a', strtotime($cols["sc_time"])) . "</td>");
                     					break;
                     					case 3:		//Reply Count
