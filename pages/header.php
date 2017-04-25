@@ -232,6 +232,10 @@ if ($staff) if($staff->getRoleID() > 6) { ?>
                                 <li>
                                     <a href="/service/ticketHistory.php"><i class="fa fa-history fa-fw"></i> History</a>
                                 </li>
+                                
+                                <li>
+                                    <a href="/service/sortableHistory.php"><i class="fa fa-history fa-fw"></i>Sortable History</a>
+                                </li>
                                 <?php
                                 	if($staff->getRoleID() != 8 && $staff->getRoleID() != 9)
                                 		echo"<li><a href='/service/technicians.php'><i class='fa fa-comment-o fa-fw'></i> Technicians</a></li>";?>

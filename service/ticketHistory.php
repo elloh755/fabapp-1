@@ -51,7 +51,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 	<div id="search" class="dataTables_filter">
                 		<label>Search:<input type="search" class="" placeholder="" aria-controls="history"></label>
                 	</div> -->
-                	<table class="table table-striped table-bordered" id="history"><tr>
+                	<table class="table table-striped table-bordered" id="history">
+                	<tr>
                 	<?php 
                 	if(isset($_GET['device_id']))
                 		$query = "SELECT sc_id, staff_id, d_id, sl_id, sc_time, sc_notes, solved FROM service_call WHERE d_id = " . $_GET['device_id']. " ORDER BY sc_id ASC";

@@ -3,9 +3,8 @@
      * CC BY-NC-AS UTA FabLab 2016-2017
      * FabApp V 0.9
      */
-    include_once ($_SERVER ['DOCUMENT_ROOT'] . '/pages/header.php');
-    
-    ?>
+    include_once ($_SERVER ['DOCUMENT_ROOT'] . '/pages/header.php');    
+?>
 <script src="jquery.js"> </script>
 <title><?php echo $sv['site_name'];?> Admin Base</title>
 <?php
