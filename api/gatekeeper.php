@@ -43,6 +43,7 @@ function gatekeeper ($operator, $device_id) {
     //Check to see machine's service status
     if($status = $mysqli->query("SELECT * FROM `service_call` WHERE d_id = " . $device_id . " AND solved = 'N' ORDER BY sc_time DESC")){
     	$color = "green";
+    	$dot = 0;
     	while ($ticket = $status->fetch_assoc()){
     		if($ticket['sl_id'] > $dot)
     			$dot = $ticket['sl_id'];
@@ -50,15 +51,13 @@ function gatekeeper ($operator, $device_id) {
     	if($status != NULL && $dot >= 7)		//NULL if no tickets opened
     		$color = "red";
     }
-    $role = $mysqli->query("SELECT r_id FROM `users` WHERE operator = " . $operator);
+    $result = $mysqli->query("SELECT r_id FROM `users` WHERE operator = " . $operator);
 	if($color == "red"){
-		switch($role){
-			case 7:
-			case 10:
+		$role = $result->fetch_assoc();
+		if($role['r_id'] >= 7 && $role['r_id'] <= 10)
 				return array ("status_id" => 10, "authorized" => "Y");
-			default:
+		else
 				return array ("status_id" => 1, "ERROR" => "Maintenance required.", "authorized" => "N");
-			break;
 		}
 	}
     

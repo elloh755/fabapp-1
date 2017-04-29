@@ -244,7 +244,7 @@ class Devices {
     	}
     	if($staff){
     		if($staff->getRoleID() > 7)
-    			echo "<td><a href = '/service/ticketHistory.php?device_id=".$d_id."'><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i></a>&nbsp; " . $device_desc . "</td>";
+    			echo "<td><a href = '/service/sortableHistory.php?device_id=".$d_id."'><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i></a>&nbsp; " . $device_desc . "</td>";
     		else
     			echo "<td><i class='fa fa-".$symbol." fa-fw' style='color:".$color."'></i>&nbsp; " . $device_desc . "</td>";
     	}

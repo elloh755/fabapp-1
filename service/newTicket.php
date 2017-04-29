@@ -23,7 +23,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-8">
                 <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;">
                     <p id="errormessage"></p>
                 </div>
