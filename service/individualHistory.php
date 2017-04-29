@@ -46,6 +46,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		                    		echo "<tbody>";
 		                    		while ($cols = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 		                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
+		                    				echo "<tr>";
 		                    				switch($i){
 		                    					case 0:		//On
 		                    						echo "<td align='center' style='padding: 15px'>" . date('M d g:i a', strtotime($cols['sr_time'])) . "</td>" ;
@@ -69,8 +70,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		                    						echo "<td align='left' style='padding: 10px;'>" . $cols['sr_notes'] . "</td>";
 		                   						break;
 		                    				}
+		                    				echo "</tr>";
 		                    			}
-		                    			echo "</tr>";
 		                    		}
 		                    	}else{
 		                    		echo "<tr><td align = 'center'>No history to display!</td></tr>";
