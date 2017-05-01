@@ -24,8 +24,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
                 <div class="panel-heading">
                     <i class="fa fa-calendar-check-o fa-fw"></i> Replies
                 </div>
-                <div class="panel-body" style="max-height: 150px; overflow-y: scroll;">
-                	<table class="table table-striped table-bordered" border='1'>
+                <div class="panel-body" style="max-height: 250px; overflow-y: scroll;">
+                	<table id='replies' class="table table-striped table-bordered" border='1'>
                     <?php
                     $exists = $mysqli->query("SELECT * FROM service_call WHERE sc_id = " . $_GET['service_call_id']);
                     if($exists->num_rows > 0){
@@ -45,8 +45,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		                    		//display the data
 		                    		echo "<tbody>";
 		                    		while ($cols = mysqli_fetch_array($result,MYSQLI_ASSOC)){
+		                    			echo "<tr>";
 		                    			for($i = 0; $i < mysqli_num_fields($result); $i++){
-		                    				echo "<tr>";
 		                    				switch($i){
 		                    					case 0:		//On
 		                    						echo "<td align='center' style='padding: 15px'>" . date('M d g:i a', strtotime($cols['sr_time'])) . "</td>" ;
@@ -70,8 +70,8 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 		                    						echo "<td align='left' style='padding: 10px;'>" . $cols['sr_notes'] . "</td>";
 		                   						break;
 		                    				}
-		                    				echo "</tr>";
 		                    			}
+		                    			echo "</tr>";
 		                    		}
 		                    	}else{
 		                    		echo "<tr><td align = 'center'>No history to display!</td></tr>";
@@ -191,6 +191,9 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 			return false;
 		}
 	}
+	window.onload = function() {
+	   	$('#replies').DataTable();
+    };
 </script>
 <?php
 //Standard call for dependencies
