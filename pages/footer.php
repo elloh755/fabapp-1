@@ -26,7 +26,7 @@
 </script>
     <script src="/vendor/jquery/jquery-1.12.4.js"></script>
     <script src="/vendor/jquery/jquery.min.js"></script>
-    <!-- <script src="/vendor/datatables/js/dataTables.min.js"></script> -->
+    <script src="/vendor/datatables/js/dataTables.min.js"></script>
     <script src="/vendor/blackrock-digital/js/sb-admin-2.js"></script>
     <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="/vendor/fabapp/fabapp.js?=v8"></script>

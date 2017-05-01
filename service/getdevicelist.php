@@ -13,7 +13,7 @@ $dg_id = $_GET["dg_id"];
 
 
 if($dg_id !=""){
-	$result = $mysqli->query ( "SELECT * FROM devices where dg_id =$dg_id" );
+	$result = $mysqli->query ( "SELECT * FROM devices where dg_id =$dg_id AND public_view = 'Y'" );
 	
 	echo "<select>";
 	while($row = mysqli_fetch_array($result))

@@ -23,7 +23,7 @@
         </div>
         <!-- /.row -->
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <div class="alert alert-danger" role = "alert" id="errordiv" style="display:none;">
                     <p id="errormessage"></p>
                 </div>
@@ -50,7 +50,9 @@
                                             }
                                             
                                             while ( $rows = mysqli_fetch_array ( $result ) ) {
-                                            	echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
+                                            	$public_devices = $mysqli->query ( "SELECT * FROM devices WHERE dg_id = " .  $rows ['dg_id']);
+                                            	if($public_devices->num_rows > 0)
+                                            		echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
                                             }
                                             ?> 
                                     </select>
@@ -159,7 +161,6 @@
     	document.getElementById("deviceList").innerHTML = xmlhttp.responseText;
     	
     }
-    
 </script>
 <?php
     // Standard call for dependencies
