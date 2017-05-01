@@ -21,6 +21,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
+	$machine = "SELECT device_desc FROM devices WHERE d_id = " . $devID;
 	
 	$sl_id = $_POST['service_level'];
 	$srnotes = $_POST['notes'];
@@ -37,7 +38,7 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 	
 	if($_POST['dev'] == 0){
 			echo "Invalid Machine Choice";
-			exit ();
+			header("refresh:5; url=/service/individualHistory.php?service_call_id=$sc_id");
 	}else 
 		$devID = $_POST['dev'];
 	
