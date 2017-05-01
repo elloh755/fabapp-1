@@ -232,7 +232,7 @@ if ($staff) if($staff->getRoleID() > 6) { ?>
                                     <a href="/service/newTicket.php"><i class="fa fa-fire fa-fw"></i> Report Issue</a>
                                 </li>
                                 <li>
-                                    <a href="/service/sortableHistory.php"><i class="fa fa-history fa-fw"></i> History</a>
+                                    <a href="/service/sortableHistory.php"><i class="fa fa-history fa-fw"></i> All History</a>
                                 </li>
                                 <?php
                                 	if($staff->getRoleID() != 8 && $staff->getRoleID() != 9)
