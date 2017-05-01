@@ -58,7 +58,6 @@ function gatekeeper ($operator, $device_id) {
 				return array ("status_id" => 10, "authorized" => "Y");
 		else
 				return array ("status_id" => 1, "ERROR" => "Maintenance required.", "authorized" => "N");
-		}
 	}
     
     //Deny if operator has unpaid balance or objects in storage

@@ -50,7 +50,7 @@
                                             }
                                             
                                             while ( $rows = mysqli_fetch_array ( $result ) ) {
-                                            	$public_devices = $mysqli->query ( "SELECT * FROM devices WHERE dg_id = " .  $rows ['dg_id']);
+                                            	$public_devices = $mysqli->query ( "SELECT * FROM devices WHERE dg_id = " .  $rows ['dg_id'] . "AND public_view = 'Y'");
                                             	if($public_devices->num_rows > 0)
                                             		echo "<option value=" . $rows ['dg_id'] . ">" . $rows ['dg_name'] . "</option>";
                                             }
