@@ -21,7 +21,6 @@ include_once ($_SERVER['DOCUMENT_ROOT'].'/pages/header.php');
 
 	$sc_id = $_POST['service_call_number'];
 	$staffID = $staff->getOperator();
-	$machine = "SELECT device_desc FROM devices WHERE d_id = " . $devID;
 	
 	$sl_id = $_POST['service_level'];
 	$srnotes = $_POST['notes'];
